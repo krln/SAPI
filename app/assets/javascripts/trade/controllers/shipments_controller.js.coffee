@@ -10,7 +10,7 @@ Trade.ShipmentsController = Ember.ArrayController.extend
     controller = Ember.get('Trade.ShipmentsTable.TableController').create()
     controller.set 'shipments', @get('content')
     controller
-  .property('content')
+  .property()
 
   setPages: ->
     total = @get('content.meta.total')
