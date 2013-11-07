@@ -1,4 +1,6 @@
 Trade.AnnualReportUploadsRoute = Ember.Route.extend
+  beforeModel: ->
+    @controllerFor('geoEntities').set('content', @store.find('geoEntity'))
+
   model: () ->
-    @controllerFor('geoEntities').load()
-    Trade.AnnualReportUpload.find({is_done: 0})
+    @store.find('annualReportUpload', {is_done: 0})

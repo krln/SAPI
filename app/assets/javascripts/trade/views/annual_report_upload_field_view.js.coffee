@@ -19,7 +19,7 @@ Trade.AnnualReportUploadFieldView = Ember.TextField.extend
         $.each data.result.files, (index, file) =>
           if file.id != undefined
             $('#upload-message').text('Upload finished')
-            aru = Trade.AnnualReportUpload.find(file.id)
+            aru = controller.store.find('annualReportUpload', file.id)
             controller.send('transitionToReportUpload', aru)
           else
             controller.send('transitionToReportUploads')

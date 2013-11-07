@@ -3,4 +3,4 @@ Trade.ValidationError = DS.Model.extend
   errorCount: DS.attr('number')
   errorSelector: DS.attr('hash')
   isPrimary: DS.attr('boolean')
-  sandboxShipments: DS.hasMany('Trade.SandboxShipment')
+  sandboxShipments: DS.hasMany('sandboxShipment')

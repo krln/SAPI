@@ -10,4 +10,4 @@ Trade.ShipmentsRoute = Ember.Route.extend
   setupController: (controller, model) ->
     # this hook is executed whether entering from url or transition
     controller.setFilters(model)
-    controller.set('content', Trade.Shipment.find(model))
+    controller.set('content', @store.find('shipment', model))

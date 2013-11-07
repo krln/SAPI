@@ -104,7 +104,7 @@ GEM
     em-websocket (0.4.0)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.5.3)
-    ember-data-source (0.14)
+    ember-data-source (1.0.0.beta.3)
       ember-source
     ember-rails (0.14.0)
       active_model_serializers
@@ -340,6 +340,7 @@ DEPENDENCIES
   coveralls
   database_cleaner (>= 1.2.0)
   debugger
+  ember-data-source (= 1.0.0.beta.3)
   ember-rails
   ember-source (= 1.1.2)
   exception_notification (~> 4.0)

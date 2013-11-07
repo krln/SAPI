@@ -1,19 +1,8 @@
 Trade.Store = DS.Store.extend({
-  revision: 12
   adapter: 'DS.RESTAdapter'
 })
 
-DS.RESTAdapter.registerTransform('array',
-  serialize: (value) ->
-    if (Em.typeOf(value) == 'array')
-      return value
-    else
-      return []
-  deserialize: (value) ->
-    return value
-)
-
-DS.RESTAdapter.registerTransform('hash',
+Trade.HashTransform = DS.Transform.extend
   serialize: (value) ->
     if (Em.typeOf(value) == 'hash')
       return value
@@ -21,25 +10,41 @@ DS.RESTAdapter.registerTransform('hash',
       return {}
   deserialize: (value) ->
     return value
-)
 
-Trade.Store.registerAdapter('Trade.GeoEntity', DS.RESTAdapter.extend({
-  namespace: "api/v1"
-}))
+Trade.ArrayTransform = DS.Transform.extend
+  serialize: (value) ->
+    if (Em.typeOf(value) == 'array')
+      return value
+    else
+      return []
+  deserialize: (value) ->
+    return value
 
-DS.RESTAdapter.configure("plurals", { geo_entity: "geo_entities" })
-
-Trade.Adapter = DS.RESTAdapter.reopen({
+Trade.ApplicationAdapter = DS.RESTAdapter.extend
   namespace: 'trade'
+  pathForType: (type) ->
+    underscored = Ember.String.underscore(type)
+    return Ember.String.pluralize(underscored)
 
-  didFindQuery: (store, type, payload, recordArray) ->
-    loader = DS.loaderFor(store)
+# inject the store into all views/components
+Trade.inject('view', 'store', 'store:main')
+Trade.inject('component', 'store', 'store:main')
 
-    loader.populateArray = (data) ->
-      recordArray.load(data)
-      # This adds the meta property returned from the server
-      # onto the recordArray sent back
-      recordArray.set('meta', payload.meta)
+Trade.ApplicationSerializer = DS.ActiveModelSerializer.extend({})
 
-    @get('serializer').extractMany(loader, payload, type)
-})
+
+# Trade.Adapter = DS.RESTAdapter.reopen({
+#   namespace: 'trade'
+
+#   didFindQuery: (store, type, payload, recordArray) ->
+#     loader = DS.loaderFor(store)
+
+#     loader.populateArray = (data) ->
+#       recordArray.load(data)
+#       # This adds the meta property returned from the server
+#       # onto the recordArray sent back
+#       recordArray.set('meta', payload.meta)
+
+#     @get('serializer').extractMany(loader, payload, type)
+# })
+
