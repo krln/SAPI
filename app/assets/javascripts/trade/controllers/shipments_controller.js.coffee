@@ -8,7 +8,11 @@ Trade.ShipmentsController = Ember.ArrayController.extend
   .property('content')
 
   pages: ( ->
-    @get('content.meta.total')
+    total = @get('content.meta.total')
+    if total
+      return Math.ceil( total / @get('content.meta.per_page'))
+    else
+      return 1
   ).property('content.isLoaded')
 
   page: ( ->
@@ -25,7 +29,12 @@ Trade.ShipmentsController = Ember.ArrayController.extend
 
   transitionToPage: (forward) ->
     page = if forward
-      parseInt(@page) + 1
+      parseInt(@get('page')) + 1
     else
-      parseInt(@page) - 1
-    @transitionToRoute('shipments', {page: page || 1})
+      parseInt(@get('page')) - 1
+    @openShipmentsPage page
+
+  openShipmentsPage: (page) ->
+    @transitionToRoute('shipments', {queryParams:
+      page: page or 1
+    })
