@@ -10,11 +10,11 @@ SAPI::Application.routes.draw do
       resources :taxon_concepts, :only => [:index, :show]
       resources :auto_complete_taxon_concepts, :only => [:index, :show]
       resources :geo_entities, :only => [:index]
+      resources :terms, :only => [:index]
+      resources :units, :only => [:index]
+      resources :sources, :only => [:index]
+      resources :purposes, :only => [:index]
     end
-    resources :terms, :only => [:index]
-    resources :sources, :only => [:index]
-    resources :purposes, :only => [:index]
-    resources :units, :only => [:index]
     resources :languages, :only => [:index]
     resources :users, :only => [:index]
     resources :designations, :only => [:index]
@@ -92,6 +92,7 @@ SAPI::Application.routes.draw do
     resources :validation_rules
     resources :shipments
     resources :geo_entities, :only => [:index]
+    resources :permits, :only => [:index]
     root :to => 'ember#start'
   end
 

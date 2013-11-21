@@ -21,6 +21,7 @@
 //= require ember
 //= require ember-data
 //= require ember-table
+//= require bootstrap-modal
 //= require bootstrap-collapse
 //= require date
 //= require select2
@@ -29,6 +30,7 @@
 
 //= require ./trade/store
 //= require_tree ./trade/models
+//= require ./trade/query_params
 //= require_tree ./trade/controllers
 //= require_tree ./trade/views
 //= require_tree ./trade/helpers

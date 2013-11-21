@@ -66,7 +66,7 @@ end
 
 group :staging, :production do
   gem 'exception_notification', '~>4.0'
-  gem 'newrelic_rpm', '>=3.5.5'
+  gem 'newrelic_rpm', '>=3.6.0'
 end
 
 group :development do
@@ -88,7 +88,7 @@ group :development do
   gem 'rack-cors', :require => 'rack/cors'
   gem 'quiet_assets'
   gem 'webrick', '1.3.1'
-
+  gem 'jslint_on_rails'
 end
 
 group :test, :development do

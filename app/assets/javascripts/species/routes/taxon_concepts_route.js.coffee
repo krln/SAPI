@@ -1,17 +1,14 @@
-Species.SearchRoute = Ember.Route.extend
+Species.TaxonConceptsRoute = Ember.Route.extend
 
-  serialize: (model) ->
-    {params: $.param(model)}
+  beforeModel: (queryParams, transition) ->
+    #dirty hack to check if we have an array or comma separated string here
+    if queryParams.geo_entities_ids && queryParams.geo_entities_ids.substring
+      queryParams.geo_entities_ids = queryParams.geo_entities_ids.split(',')
+    @controllerFor('search').setFilters(queryParams)
 
-  model: (params) ->
-    # what follows here is the deserialisation of params
-    # this hook is executed only when entering from url
-    $.deparam(params.params) if params
-
-  setupController: (controller, model) ->
-    # this hook is executed whether entering from url or transition
-    controller.setFilters(model)
-    @controllerFor('taxonConcepts').set('content', Species.TaxonConcept.find(model))
+  model: (params, queryParams, transition) ->
+    queryParams.geo_entities_ids = [] if queryParams.geo_entities_ids == true
+    Species.TaxonConcept.find(queryParams)
 
   renderTemplate: ->
     taxonConceptsController = @controllerFor('taxonConcepts')
