@@ -4,25 +4,22 @@ Trade.ShipmentsController = Ember.ArrayController.extend Trade.QueryParams,
   currentShipment: null
   errors: null
 
+  columns: [
+    'taxonConcept.fullName', 'year', 'quantity', 'appendix', 'term.code',
+    'unit.code', 'importer.isoCode2', 'exporter.isoCode2', 'countryOfOrigin.isoCode2',
+    'importPermitNumber', 'exportPermitNumber', 'countryOfOriginPermitNumber',
+    'purpose.code', 'source.code'
+  ]
+
+  codeMappings: {
+    isoCode2: "name"
+    code: "nameEn"
+  }
+
   shipmentsSaving: ( ->
     return false unless @get('content.isLoaded')
     @get('content').filterBy('isSaving', true).length > 0
   ).property('content.@each.isSaving')
-
-  unsavedChanges: (->
-    @get('changedRowsCount') > 0
-  ).property('changedRowsCount')
-
-  changedRowsCount: (->
-    return false unless @get('content.isLoaded')
-    @get('content').filterBy('isDirty', true).length
-  ).property('content.@each.isDirty')
-
-  tableController: Ember.computed ->
-    controller = Ember.get('Trade.ShipmentsTable.TableController').create()
-    controller.set('shipmentsController', @)
-    controller
-  .property('content')
 
   total: ( ->
     @get('content.meta.total')
@@ -128,7 +125,6 @@ Trade.ShipmentsController = Ember.ArrayController.extend Trade.QueryParams,
         @store.find('autoCompleteTaxonConcept', tc_id)
   ).property('autoCompleteTaxonConcepts.meta.rank_headers')
   selectedTaxonConcepts: []
-
   selectedAppendices: []
   selectedTerms: []
   selectedUnits: []
@@ -150,6 +146,11 @@ Trade.ShipmentsController = Ember.ArrayController.extend Trade.QueryParams,
   ).property('countryOfOriginQuery')
   selectedCountriesOfOrigin: []
   selectedQuantity: null
+  
+  unitBlank: false
+  purposeBlank: false
+  sourceBlank: false
+  countryOfOriginBlank: false
   termQuery: null
   autoCompleteTerms: ( ->
     @autoCompleteObjects('controllers.terms', 'code', @get('termQuery'))
@@ -166,33 +167,13 @@ Trade.ShipmentsController = Ember.ArrayController.extend Trade.QueryParams,
       re.test(element.get(columnName))
 
   actions:
-    # TODO this might need to be dropped
-    # because it will be easier to handle validations
-    # if shipments are saved one by one
-    saveChanges: () ->
-      # process deletes
-      @get('content').filterBy('_destroyed', true).forEach (shipment) ->
-        shipment.deleteRecord()
-      # process updates
-      @get('content').forEach (shipment) ->
-        shipment.save()
-      @openShipmentsPage( {page: @get('page')} )
-
-    # TODO this might need to be dropped
-    # because it will be easier to handle validations
-    # if shipments are saved one by one
-    cancelChanges: () ->
-      @get('content').forEach (shipment) ->
-        if (!shipment.get('isSaving'))
-          shipment.get('transaction').rollback()
-
     # creates a local new shipment (bound to currentShipment)
     newShipment: () ->
       @set('currentShipment', @store.createRecord('shipment'))
       $('.modal').modal('show')
 
     # saves the new shipment (bound to currentShipment) to the db
-    saveShipment: () ->
+    saveShipment: ->
       shipment = @get('currentShipment')
       # Before trying to save a shipment 
       # we need to reset the model to a valid state.
@@ -203,27 +184,54 @@ Trade.ShipmentsController = Ember.ArrayController.extend Trade.QueryParams,
       shipment.one('didCreate', this, ->
         @set('errors', '')
         @set('currentShipment', null)
-        @set('shipment', null) #TODO: is this needed?
         $('.modal').modal('hide')
+        @send('search')
+      )
+      shipment.one('didUpdate', this, ->
+        @set('errors', '')
+        @set('currentShipment', null)
+        $('.modal').modal('hide')
+        @send('search')
       )
       shipment.one('becameInvalid', this, ->
-        @set 'errors', @get('currentShipment.errors')
+        @set 'errors', shipment.errors
       )
+
+    cancelShipment: () ->
+      @set('currentShipment', null)
+      @set 'errors', null
+      $('.modal').modal('hide')
   
     # discards the new shipment (bound to currentShipment)
-    cancelNewShipment: () ->
-      shipment = @get('currentShipment')
-      if (!shipment.get('isSaving'))
-        @get('currentShipment').deleteRecord()
-        @set('currentShipment', null)
-        @set 'errors', null
-        $('.modal').modal('hide')
+    deleteShipment: (shipment) ->
+      #deletes record from store
+      shipment.deleteRecord()
+      #persist change 
+      shipment.save().then(
+        =>
+          #delete succesful, go back to overview
+          @set('currentShipment', null)
+          @set 'errors', null
+          @send('search')
+        (error) ->
+          #Not succesfull, rollback the delete action
+          shipment.rollback()
+          alert("An error occured - Please try again")
+      )
+
+    editShipment: (shipment) ->
+      @set('currentShipment', shipment)
+      $('.modal').modal('show')
 
     search: ->
       params = {}
       @selectedQueryParamNames.forEach (property) =>
         selectedParams = @get(property.name)
         params[property.param] = @parseSelectedParams(selectedParams)
+        params['unit_blank'] = @get('unitBlank')
+        params['purpose_blank'] = @get('purposeBlank')
+        params['source_blank'] = @get('sourceBlank')
+        params['country_of_origin_blank'] = @get('countryOfOriginBlank')
       @openShipmentsPage params
 
     resetFilters: ->

@@ -7,10 +7,8 @@ Trade.Shipment = DS.Model.extend
   reporterType: DS.attr('string')
 
   appendix: DS.attr('string')
-  reportedAppendix: DS.attr('string')
   taxonConceptId: DS.attr('number')
   taxonConcept: DS.belongsTo('taxonConcept')
-  reportedSpeciesName: DS.attr('string')
   term: DS.belongsTo('term')
   quantity: DS.attr('string')
   unit: DS.belongsTo('unit')
