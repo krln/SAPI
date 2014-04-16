@@ -141,3 +141,6 @@ Events are used to represent CITES CoPs, CITES Notifications, and EU regulations
 * CitesSuspensionNotification: For CITES Suspension Notification
 * EuRegulation: for EU Implemeting/Listing/Legislation regulations
 * SuspensionEuRegulation: for EU suspending regulations
+
+=== Ember Testing with Konacha
+  - bundle exec rake konacha:serve
