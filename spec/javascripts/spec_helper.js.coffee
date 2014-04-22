@@ -2,7 +2,7 @@
 #= require species
 #= require ember-mocha-adapter
 
-Ember.Test.adapter = Ember.Test.MochaAdapter.create()
+#Ember.Test.adapter = Ember.Test.MochaAdapter.create()
 Species.setupForTesting()
 Species.injectTestHelpers()
 
@@ -14,8 +14,8 @@ Konacha.reset = Ember.K
 
 $.fx.off = true
 
-afterEach ->
-  Species.reset()
+#afterEach ->
+#  Species.reset()
 
 #Species.setup()
-Species.advanceReadiness()
+#Species.advanceReadiness()
