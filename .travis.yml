@@ -14,7 +14,7 @@ before_install:
   - sudo bash -c 'echo yes | cpan TAP::Parser::SourceHandler::pgTAP'
   - bash pg-pgtap-install.sh
 before_script:
-  - psql -c 'create database sapi_test' -U postgres
+  - psql -h localhost -p 55436 -c 'create database sapi_test' -U postgres
   - RAILS_ENV=test bundle exec rake db:migrate
 script:
   - export PERL5LIB=~/perl5/lib/perl5
