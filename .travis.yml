@@ -2,11 +2,6 @@ language: ruby
 bundler_args: --without development production staging
 rvm:
   - 1.9.3
-# uncomment this line if your project needs to run something other than `rake`:
-before_script:
-  - psql -c 'create database sapi_test' -U postgres
-  - RAILS_ENV=test bundle exec rake db:migrate
-
 env:
   - PGVERSION=9.3
 before_install:
@@ -16,9 +11,9 @@ before_install:
   - sudo sh ./apt.postgresql.org.sh
   - sudo bash -c 'echo yes | cpan TAP::Parser::SourceHandler::pgTAP'
   - bash pg-pgtap-install.sh
-install:
-  - echo 'test' | bash ./install.sh
-  - cat install.log
+before_script:
+  - psql -c 'create database sapi_test' -U postgres
+  - RAILS_ENV=test bundle exec rake db:migrate
 script:
   - export PERL5LIB=~/perl5/lib/perl5
   - cd test && ~/perl5/bin/pg_prove -h localhost -p 55436 -d sapi_test -U postgres spec/pgtap/*.sql
