@@ -15,6 +15,7 @@ before_install:
   - bash pg-pgtap-install.sh
 before_script:
   - psql -h localhost -p 55436 -c 'create database sapi_test' -U postgres
+  - cp config/database.yml.travis config/database.yml
   - RAILS_ENV=test bundle exec rake db:migrate
 script:
   - export PERL5LIB=~/perl5/lib/perl5

@@ -1,0 +1,9 @@
+test:
+  adapter: postgresql
+  database: sapi_test
+  pool: 5
+  username: postgres
+  password:
+  timeout: 5000
+  port: 55436
+  host: localhost
