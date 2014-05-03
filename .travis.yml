@@ -19,4 +19,4 @@ before_script:
   - RAILS_ENV=test bundle exec rake db:migrate
 script:
   - export PERL5LIB=~/perl5/lib/perl5
-  - cd spec && ~/perl5/bin/pg_prove -h localhost -p 55436 -d sapi_test -U postgres pgtap/*.sql
+  - cd spec && ~/perl5/bin/pg_prove -h localhost -p 55436 -d sapi_test -U postgres --runtests
