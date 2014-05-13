@@ -119,3 +119,4 @@ gem 'jquery-ui-rails'
 
 gem 'geoip'
 gem 'charlock_holmes', github: "tooky/charlock_holmes", branch: "bundle-icu"
+gem 'clerk'
