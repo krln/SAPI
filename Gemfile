@@ -3,6 +3,7 @@ source 'http://gems.github.com'
 
 gem 'ahoy_matey'
 gem 'rails', '3.2.18'
+gem 'postgres_ext'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
