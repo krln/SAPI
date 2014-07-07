@@ -69,5 +69,6 @@ module SAPI
 
     # Change Ember's template root. Doesn't seem to be working though :(
     # config.handlebars.templates_root = "trade/templates"
+    config.active_record.schema_format = :sql
   end
 end
