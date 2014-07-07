@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 source 'http://gems.github.com'
 
+gem 'ahoy_matey'
 gem 'rails', '3.2.18'
 
 # Bundle edge Rails instead:
