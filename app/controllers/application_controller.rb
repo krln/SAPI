@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include SentientController
   before_filter :set_locale
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :track_with_ahoy
 
   rescue_from CanCan::AccessDenied do |exception|
     rescue_path = if request.referrer && request.referrer != request.url
