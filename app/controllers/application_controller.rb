@@ -56,4 +56,8 @@ class ApplicationController < ActionController::Base
     redirect_to admin_root_path,
       :alert => "You are not authorized to access the trade admin page" unless current_user.is_manager?
   end
+
+  def track_with_ahoy
+    #ahoy.track "Viewed book", "Hot, Flat, and Crowded"
+  end
 end
