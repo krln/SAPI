@@ -40,6 +40,9 @@ class ApplicationController < ActionController::Base
       :per_page => search.per_page
     }
   end
+  def track_with_ahoy
+    #ahoy.track "Viewed book", title: "Hot, Flat, and Crowded"
+  end
 
   def after_sign_out_path_for(resource_or_scope)
     admin_root_path
