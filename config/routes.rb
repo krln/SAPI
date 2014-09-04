@@ -11,6 +11,7 @@ SAPI::Application.routes.draw do
   match 'eu_legislation' => 'pages#eu_legislation'
   match 'activities' => 'activities#activities'
 
+
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
   namespace :api do
