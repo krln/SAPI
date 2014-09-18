@@ -6,7 +6,6 @@ class ActivitiesController < ApplicationController
       order('number_of_visits DESC').limit(10)
     @toptens_cms = TaxonConceptViewStats.cms.
       order('number_of_visits DESC').limit(10)
-
     start_date = Ahoy::Event.minimum(:time)
     if start_date < 1.year.ago
       start_date = 1.year.ago
