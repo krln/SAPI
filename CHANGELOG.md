@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### 0.8.3 (2014-09-24)
 **Species+:**
 * choice of csv separator
@@ -34,6 +35,8 @@
 **CITES Checklist**
 * site and outputs available in 3 lngs
 
+=======
+>>>>>>> a11b3785888c7d6f1718c47ca76eb8b25aebddba
 ### 0.7.11 (2014-07-31)
 **Species+**
 * user activity tracking

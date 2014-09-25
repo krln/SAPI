@@ -75,6 +75,10 @@ CREATE OR REPLACE FUNCTION rebuild_designation_listing_changes_mview(
     NULL::TEXT AS inherited_full_note_es, -- this column is populated later
     NULL::TEXT AS inherited_short_note_fr, -- this column is populated later
     NULL::TEXT AS inherited_full_note_fr, -- this column is populated later
+<<<<<<< HEAD
+=======
+    -- BEGIN remove once checklist translation has been deployed
+>>>>>>> a11b3785888c7d6f1718c47ca76eb8b25aebddba
     CASE
     WHEN listing_changes.inclusion_taxon_concept_id IS NOT NULL
     THEN ancestor_listing_auto_note_en(
@@ -85,6 +89,21 @@ CREATE OR REPLACE FUNCTION rebuild_designation_listing_changes_mview(
       original_taxon_concepts, listing_changes
     )
     ELSE NULL
+<<<<<<< HEAD
+=======
+    END AS auto_note,
+    -- END remove once checklist translation has been deployed
+    CASE
+    WHEN listing_changes.inclusion_taxon_concept_id IS NOT NULL
+    THEN ancestor_listing_auto_note_en(
+      inclusion_taxon_concepts, listing_changes
+    )
+    WHEN applicable_listing_changes.affected_taxon_concept_id != listing_changes.taxon_concept_id
+    THEN ancestor_listing_auto_note_en(
+      original_taxon_concepts, listing_changes
+    )
+    ELSE NULL
+>>>>>>> a11b3785888c7d6f1718c47ca76eb8b25aebddba
     END AS auto_note_en,
     CASE
     WHEN listing_changes.inclusion_taxon_concept_id IS NOT NULL
