@@ -120,7 +120,6 @@ FactoryGirl.define do
 
   factory :ahoy_event, :class => Ahoy::Event do
     id { SecureRandom.uuid }
-    visit
     user
   end
 
